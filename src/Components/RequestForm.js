@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
-import { Card,Form,Button } from 'react-bootstrap'
-
+import { Card,Form,Button,Alert } from 'react-bootstrap'
+import axios from 'axios'
 
 
 export class RequestForm extends PureComponent {
@@ -13,6 +13,10 @@ constructor(props) {
     this.addressRef = React.createRef();
     this.zipRef= React.createRef();
     this.descriptionRef=React.createRef();
+    this.myRefSuccess = React.createRef() 
+    this.state={
+        success:false
+    }
   }
 
 submitRequest(){
@@ -27,9 +31,25 @@ let requestObject={
  "phone":this.phoneRef.current.value,
  "address":this.addressRef.current.value,
  "zip":this.zipRef.current.value,
-"description":this.descriptionRef.current.value
+"description":this.descriptionRef.current.value,
+"service_type":this.props.serviceType
 }
 console.log(requestObject);
+axios.post("/service", requestObject )
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+        if(res.status===200 && res.data){
+          this.setState({
+              success:true
+          });
+
+         // this.myRefSuccess.current.scrollTo(0, 0); 
+         window.scrollTo(0, 0); 
+         //this.myRefSuccess.elem.scrollTop=0;
+        }
+      })
+  
 }
     render() {
         return (
@@ -37,7 +57,10 @@ console.log(requestObject);
 
                 <Card.Body>
                     <Card.Title>{this.props.serviceType} Service Request</Card.Title>
-                    <Form onSubmit={()=>this.submitRequest()}>
+                    {this.state.success && <Alert ref={this.myRefSuccess} variant={"success"}>
+                      Your request has been sumbitted successfully
+                    </Alert> }
+                    <Form onSubmit={(e)=>{e.preventDefault(); this.submitRequest()}} action={()=>{}}> 
 
                         <Form.Group  controlId="formBasicName">
                             <Form.Label>Name*</Form.Label>

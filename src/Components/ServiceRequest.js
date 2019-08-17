@@ -1,8 +1,38 @@
 import React, { PureComponent } from 'react'
 import {Card,Button,Tab,TabContainer,Row,Col,ListGroup} from 'react-bootstrap'
 import { RequestForm } from './RequestForm';
+import { Mycontext } from './AdminProvider';
+import RequestDetails from './RequestDetails';
+import axios from 'axios'
 
 export class ServiceRequest extends PureComponent {
+
+  constructor(props){
+    super(props);
+    this.state={
+      data:[],
+      noData:false
+    }
+
+}
+
+   adminRequestContent(){
+ 
+    axios.get("/serviceRequestsA").then(res=>{
+     console.log(res.data)
+     this.setState({data:res.data});
+     
+    });
+ 
+   return(
+   
+        <RequestDetails ></RequestDetails>
+       
+   )
+   }
+
+
+
     render() {
         return (
             <Card style={{ width: '100%',marginBottom:'10px'}}>
@@ -17,7 +47,9 @@ export class ServiceRequest extends PureComponent {
    
    <Tab.Container id="list-group-tabs-example" defaultActiveKey="#link1">
   <Row>
-    <Col sm={4}>
+  {this.context.getIsAdmin() ? ( 
+    " "
+  ):( <Col sm={4}>
       <ListGroup>
         <ListGroup.Item action href="#link1">
          Electronics
@@ -29,8 +61,12 @@ export class ServiceRequest extends PureComponent {
          Plumber Work
         </ListGroup.Item>
       </ListGroup>
-    </Col>
-    <Col sm={8}>
+    </Col>)}
+   
+    <Col sm={this.context.getIsAdmin() ? 12 : 8} >
+      {this.context.getIsAdmin() ? ( 
+      this.adminRequestContent()
+      ):(
       <Tab.Content>
         <Tab.Pane eventKey="#link1">
         <RequestForm serviceType="Electronics"></RequestForm>
@@ -41,7 +77,7 @@ export class ServiceRequest extends PureComponent {
         <Tab.Pane eventKey="#link3">
         <RequestForm serviceType="Plumber Work"></RequestForm>
         </Tab.Pane>
-      </Tab.Content>
+      </Tab.Content>)}
     </Col>
   </Row>
 </Tab.Container>
@@ -52,5 +88,5 @@ export class ServiceRequest extends PureComponent {
         )
     }
 }
-
+ServiceRequest.contextType=Mycontext;
 export default ServiceRequest

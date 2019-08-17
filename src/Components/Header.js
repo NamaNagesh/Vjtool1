@@ -24,11 +24,11 @@ export class Header extends PureComponent {
   <Nav.Item>
     <NavLink  className="nav-link" to={"/contactus"}> Contact Us</NavLink>
   </Nav.Item>
-   <Nav.Item >
+   {/* <Nav.Item >
    
        <NavLink  className="nav-link" to={"/aboutus"}> About Us</NavLink>
   
-  </Nav.Item>
+  </Nav.Item> */}
 </Nav>
 </NavDiv>        
         )

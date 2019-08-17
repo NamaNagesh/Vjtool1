@@ -17,10 +17,18 @@ export default class Main extends Component {
     });
    }
 
+   toAdminLogin(){
+    let { history } = this.props;
+    history.push({
+     pathname: '/adminLogin',
+    
+    });
+   }
+
     render() {
         return (
             <BodyDiv className='panel'>
-             <Card style={{ width: '100%' }}>
+             <Card style={{ widwth: '100%' }}>
   
   <Card.Body>
     <Card.Title>Home Services</Card.Title>
@@ -29,6 +37,7 @@ export default class Main extends Component {
       To avail our services click on services button and make a request.
     </Card.Text>
     <Button variant="primary" onClick={()=>this.onButtonClick()}>Services</Button>
+    {(window.location.href).indexOf("admin")>-1 && <Button variant="primary" onClick={()=>this.toAdminLogin()} style={{marginLeft:"5px"}}>Admin Login</Button>}
   </Card.Body>
   </Card>
             </BodyDiv>

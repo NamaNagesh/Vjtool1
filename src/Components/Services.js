@@ -34,7 +34,7 @@ export class Services extends PureComponent {
           
 
             <Tabs defaultActiveKey="serviceRequest" id="uncontrolled-tab-example">
-  <Tab eventKey="serviceRequest" title="Service Requesy">
+  <Tab eventKey="serviceRequest" title="Service Request">
   <ServiceRequest></ServiceRequest>
   </Tab>
   <Tab eventKey="serviceHistory" title="Service History">
